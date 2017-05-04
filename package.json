@@ -1,0 +1,28 @@
+{
+  "name": "project-gulp",
+  "version": "1.0.0",
+  "description": "project gulp",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bruno-naibert/gulp.git"
+  },
+  "author": "Bruno Naibert",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bruno-naibert/gulp/issues"
+  },
+  "homepage": "https://github.com/bruno-naibert/gulp#readme",
+  "devDependencies": {
+    "cssmin": "^0.4.3",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssmin": "^0.1.7",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0",
+    "gulp-strip-css-comments": "^1.2.0"
+  }
+}
