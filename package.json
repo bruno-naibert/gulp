@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/bruno-naibert/gulp#readme",
   "devDependencies": {
+    "browser-sync": "^2.18.8",
     "cssmin": "^0.4.3",
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",

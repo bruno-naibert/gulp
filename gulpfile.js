@@ -3,7 +3,9 @@ var gulp = require('gulp'),
   rename = require('gulp-rename'),
   concat = require('gulp-concat'),
   cssmin = require('gulp-cssmin'),
-  uglify = require('gulp-uglify');
+  uglify = require('gulp-uglify'),
+  browserSync = require('browser-sync').create(),
+  reload = browserSync.reload;
 
 //Busca .sass
 var scssFiles = 'development/assets/scss/**/*.scss';
@@ -20,31 +22,34 @@ var sassBuild = {
   outputStyle: 'expanded'
 }
 
-//Tarefa padrão, roda com 'gulp'
-gulp.task('default', ['sassBuild', 'minify-js', 'watch']);
+gulp.task('serve', function() {
+  browserSync.init({
+    server: {
+      baseDir: './site'
+    }
+  });
 
+  gulp.watch('scssFiles', 'site/*html', 'jsFiles').on("change", reload);
+})
 
+gulp.task('default', ['styles-build', 'scripts-build', 'watch', 'serve']);
 
-
-
-//Compila SCSS > CSS > concatena > minifica > manda para a pasta 'site'
-gulp.task('sassBuild', function() {
-  return gulp.src(scssFiles)
+gulp.task('styles-build', function() {
+  gulp.src(scssFiles)
     .pipe(sass(sassBuild)).on('error', sass.logError)
     .pipe(concat('style.min.css'))
     .pipe(cssmin())
     .pipe(gulp.dest(cssMinDest));
 });
 
-gulp.task('minify-js', function() {
+gulp.task('scripts-build', function() {
   gulp.src(jsFiles)
     .pipe(concat('js.min.js'))
     .pipe(uglify())
     .pipe(gulp.dest(jsMinDest));
 });
 
-//Monitora SCSS > dispara a task 'sassBuild'
 gulp.task('watch', function() {
-  gulp.watch(jsFiles, ['minify-js'])
-  gulp.watch(scssFiles, ['sassBuild']);
+  gulp.watch(jsFiles, ['scripts-build'])
+  gulp.watch(scssFiles, ['styles-build']);
 });
