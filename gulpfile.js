@@ -5,6 +5,8 @@ var gulp = require('gulp'),
   cssmin = require('gulp-cssmin'),
   uglify = require('gulp-uglify'),
   clean = require('gulp-clean'),
+  usemin = require('gulp-usemin'),
+  htmlReplace = require('gulp-html-replace'),
   browserSync = require('browser-sync').create(),
   reload = browserSync.reload;
 
@@ -26,6 +28,10 @@ var paths = {
   images: ['dist/image/**/*'],
 }
 
+
+gulp.task('default', ['copy'], function() {
+  gulp.start('styles-build', 'scripts-build', 'build-html');
+});
 gulp.task('clean', function() {
   return gulp.src([bases.dist])
     .pipe(clean());
@@ -36,7 +42,7 @@ gulp.task('copy', ['clean'], function() {
     .pipe(gulp.dest('dist/img'))
 });
 
-gulp.task('styles-build', ['copy'], function() {
+gulp.task('styles-build', function() {
   gulp.src(paths.styles)
     .pipe(sass(sassBuild)).on('error', sass.logError)
     .pipe(concat('style.min.css'))
@@ -44,11 +50,18 @@ gulp.task('styles-build', ['copy'], function() {
     .pipe(gulp.dest('dist/css'));
 });
 
-gulp.task('scripts-build', ['copy'], function() {
+gulp.task('scripts-build', function() {
   gulp.src(paths.libs, paths.scripts)
     .pipe(concat('js.min.js'))
     .pipe(uglify())
     .pipe(gulp.dest('dist/js'));
 });
 
-gulp.task('default', ['styles-build', 'scripts-build']);
+gulp.task('build-html', function() {
+  gulp.src('src/**/*.html')
+    .pipe(htmlReplace({
+      js: 'js/js.min.js',
+      css: 'css/style.min.css'
+    }))
+    .pipe(gulp.dest('dist'))
+});
