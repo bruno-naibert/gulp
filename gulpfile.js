@@ -8,10 +8,14 @@ var gulp = require('gulp'),
   browserSync = require('browser-sync').create(),
   reload = browserSync.reload;
 
+// sass > css do tipo não minificado
+var sassBuild = {
+  outputStyle: 'expanded'
+}
 
 var bases = {
-  app: 'development/',
-  dist: 'site/',
+  app: 'src',
+  dist: 'dist',
 }
 
 var paths = {
@@ -22,23 +26,17 @@ var paths = {
   images: ['development/assets/image/**/*'],
 }
 
-gulp.task('clean', function() {
- return gulp.src(bases.dist)
- .pipe(clean());
-});
-
-
 gulp.task('copy', ['clean'], function() {
- gulp.src(bases.app + 'development/**/*')
- .pipe(gulp.dest(bases.dist));
+  return gulp.src(bases.app + '/**/*')
+    .pipe(gulp.dest(bases.dist));
 });
 
-// sass > css do tipo não minificado
-var sassBuild = {
-  outputStyle: 'expanded'
-}
+gulp.task('clean', function() {
+  return gulp.src(bases.dist)
+    .pipe(clean());
+});
 
-gulp.task('styles-build', function() {
+gulp.task('styles-build', ['copy'], function() {
   gulp.src(paths.styles)
     .pipe(sass(sassBuild)).on('error', sass.logError)
     .pipe(concat('style.min.css'))
