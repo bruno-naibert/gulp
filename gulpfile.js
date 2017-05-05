@@ -9,18 +9,22 @@ var scssFiles = 'development/assets/scss/**/*.scss';
 //Destino css.min
 var cssMinDest = 'site/assets/css/';
 
+//Busca JS
+var jsFiles = 'development/assets/js/**/*.js';
+//Destino js.min
+var jsMinDest = 'site/assets/js'
+
 // Gera css do tipo não minificado
 var sassBuild = {
   outputStyle: 'expanded'
 }
 
 //Tarefa padrão, roda com 'gulp'
-gulp.task('default', ['sassBuild', 'watch']);
+gulp.task('default', ['sassBuild', 'minify-js', 'watch']);
 
-//Monitora SCSS > dispara a task 'sassBuild'
-gulp.task('watch', function() {
-  gulp.watch(scssFiles, ['sassBuild']);
-});
+
+
+
 
 //Compila SCSS > CSS > concatena > minifica > manda para a pasta 'site'
 gulp.task('sassBuild', function() {
@@ -29,4 +33,19 @@ gulp.task('sassBuild', function() {
     .pipe(concat('style.min.css'))
     .pipe(cssmin())
     .pipe(gulp.dest(cssMinDest));
+});
+
+gulp.task('minify-js', function() {
+  gulp.src(jsFiles)
+    .pipe(concat('js.min.js'))
+    .pipe(gulp.dest(jsMinDest));
+});
+
+gulp.task('watch', function() {
+  gulp.watch(scssFiles, ['sassBuild']);
+});
+
+//Monitora SCSS > dispara a task 'sassBuild'
+gulp.task('watch', function() {
+  gulp.watch(jsFiles, ['minify-js']);
 });
