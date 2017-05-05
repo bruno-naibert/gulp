@@ -37,7 +37,7 @@ gulp.task('copy', ['clean'], function() {
 });
 
 gulp.task('styles-build', ['copy'], function() {
-  gulp.src([paths.styles])
+  gulp.src(paths.styles)
     .pipe(sass(sassBuild)).on('error', sass.logError)
     .pipe(concat('style.min.css'))
     .pipe(cssmin())
@@ -50,3 +50,5 @@ gulp.task('scripts-build', ['copy'], function() {
     .pipe(uglify())
     .pipe(gulp.dest('dist/js'));
 });
+
+gulp.task('default', ['styles-build', 'scripts-build']);
