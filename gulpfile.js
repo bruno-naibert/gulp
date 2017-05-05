@@ -2,7 +2,8 @@ var gulp = require('gulp'),
   sass = require('gulp-sass'),
   rename = require('gulp-rename'),
   concat = require('gulp-concat'),
-  cssmin = require('gulp-cssmin');
+  cssmin = require('gulp-cssmin'),
+  uglify = require('gulp-uglify');
 
 //Busca .sass
 var scssFiles = 'development/assets/scss/**/*.scss';
@@ -38,14 +39,12 @@ gulp.task('sassBuild', function() {
 gulp.task('minify-js', function() {
   gulp.src(jsFiles)
     .pipe(concat('js.min.js'))
+    .pipe(uglify())
     .pipe(gulp.dest(jsMinDest));
-});
-
-gulp.task('watch', function() {
-  gulp.watch(scssFiles, ['sassBuild']);
 });
 
 //Monitora SCSS > dispara a task 'sassBuild'
 gulp.task('watch', function() {
-  gulp.watch(jsFiles, ['minify-js']);
+  gulp.watch(jsFiles, ['minify-js'])
+  gulp.watch(scssFiles, ['sassBuild']);
 });
