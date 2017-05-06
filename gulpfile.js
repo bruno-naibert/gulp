@@ -16,22 +16,22 @@ var sassBuild = {
 }
 
 var bases = {
-  app: 'src',
+  src: 'src',
   dist: 'dist',
 }
 
 var paths = {
   scripts: ['src/js/**/*.js', '!src/js/libs/**/*.js'],
   libs: ['src/js/libs/**/*.js'],
-  styles: ['src/css/**/*.css'],
-  html: ['dist/*.html'],
-  images: ['dist/image/**/*'],
+  styles: ['src/css/**/*.css', '!src/css/libs/**/*.css'],
+  html: ['src/*.html'],
+  images: ['src/img/**/*'],
 }
-
 
 gulp.task('default', ['copy'], function() {
   gulp.start('styles-build', 'scripts-build', 'build-html');
 });
+
 gulp.task('clean', function() {
   return gulp.src([bases.dist])
     .pipe(clean());
