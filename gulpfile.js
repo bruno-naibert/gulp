@@ -20,7 +20,7 @@ var bases = {
 }
 
 var paths = {
-  scripts: ['src/js/libs/**/*.js', 'src/js/**/*.js'],
+  scripts: ['src/scripts/**/*.js'],
   styles: ['src/styles/**/*.scss'],
   html: ['dist/*.html'],
   images: ['dist/image/**/*'],
@@ -47,16 +47,16 @@ gulp.task('styles-build', ['copy'], function() {
     .pipe(gulp.dest('dist/css'));
 });
 
+gulp.task('scripts-build', ['copy'], function() {
+  gulp.src(paths.scripts)
+    .pipe(concat('scripts.min.js'))
+    //.pipe(uglify())
+    .pipe(gulp.dest('dist/js'));
+});
+
 gulp.task('watch', ['copy'], function() {
   gulp.watch(paths.styles, ['styles-build']);
 });
-
-//gulp.task('scripts-build', function() {
-  //gulp.src(paths.scripts)
-    //.pipe(concat('js.min.js'))
-    //.pipe(uglify())
-    //.pipe(gulp.dest('dist/js'));
-//});
 
 //gulp.task('build-html', function() {
   //gulp.src('src/**/*.html')
@@ -67,4 +67,4 @@ gulp.task('watch', ['copy'], function() {
     //.pipe(gulp.dest('dist'))
 //});
 
-gulp.task('default', ['copy', 'styles-build', 'watch'])
+gulp.task('default', ['copy', 'styles-build', 'scripts-build', 'watch'])
