@@ -55,7 +55,8 @@ gulp.task('scripts-build', ['copy'], function() {
 });
 
 gulp.task('watch', ['copy'], function() {
-  gulp.watch(paths.styles, ['styles-build']);
+  gulp.watch(paths.styles, ['default']);
+  gulp.watch(paths.scripts, ['default']);
 });
 
 //gulp.task('build-html', function() {
