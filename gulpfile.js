@@ -47,6 +47,10 @@ gulp.task('styles-build', ['copy'], function() {
     .pipe(gulp.dest('dist/css'));
 });
 
+gulp.task('watch', ['copy'], function() {
+  gulp.watch(paths.styles, ['styles-build']);
+});
+
 //gulp.task('scripts-build', function() {
   //gulp.src(paths.scripts)
     //.pipe(concat('js.min.js'))
@@ -63,4 +67,4 @@ gulp.task('styles-build', ['copy'], function() {
     //.pipe(gulp.dest('dist'))
 //});
 
-gulp.task('default', ['copy', 'styles-build'])
+gulp.task('default', ['copy', 'styles-build', 'watch'])
