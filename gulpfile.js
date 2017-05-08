@@ -59,13 +59,13 @@ gulp.task('watch', ['copy'], function() {
   gulp.watch(paths.scripts, ['default']);
 });
 
-//gulp.task('build-html', function() {
-  //gulp.src('src/**/*.html')
-    //.pipe(htmlReplace({
+gulp.task('build-html', ['copy'], function() {
+  gulp.src('src/**/*.html')
+    .pipe(htmlReplace({
       //js: 'js/js.min.js',
-      //css: 'css/style.min.css'
-    //}))
-    //.pipe(gulp.dest('dist'))
-//});
+      css: 'css/style.min.css'
+    }))
+    .pipe(gulp.dest('dist'))
+});
 
-gulp.task('default', ['copy', 'styles-build', 'scripts-build', 'watch'])
+gulp.task('default', ['copy', 'styles-build', 'scripts-build', 'build-html', 'watch'])
