@@ -22,7 +22,7 @@ var bases = {
 var paths = {
   scripts: ['src/scripts/**/*.js'],
   styles: ['src/styles/**/*.scss'],
-  html: ['dist/*.html'],
+  html: ['src/**/*.html'],
   images: ['dist/image/**/*'],
 }
 
@@ -54,11 +54,6 @@ gulp.task('scripts-build', ['copy'], function() {
     .pipe(gulp.dest('dist/js'));
 });
 
-gulp.task('watch', ['copy'], function() {
-  gulp.watch(paths.styles, ['default']);
-  gulp.watch(paths.scripts, ['default']);
-});
-
 gulp.task('build-html', ['copy'], function() {
   gulp.src('src/**/*.html')
     .pipe(htmlReplace({
@@ -66,6 +61,12 @@ gulp.task('build-html', ['copy'], function() {
       css: 'css/style.min.css'
     }))
     .pipe(gulp.dest('dist'))
+});
+
+gulp.task('watch', ['copy'], function() {
+  gulp.watch(paths.styles, ['default']);
+  gulp.watch(paths.scripts, ['default']);
+  gulp.watch(paths.html, ['default']);
 });
 
 gulp.task('default', ['copy', 'styles-build', 'scripts-build', 'build-html', 'watch'])
