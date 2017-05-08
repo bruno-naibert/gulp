@@ -7,7 +7,7 @@ var gulp = require('gulp'),
   clean = require('gulp-clean'),
   usemin = require('gulp-usemin'),
   htmlReplace = require('gulp-html-replace'),
-  browserSync = require('browser-sync');
+  browserSync = require('browser-sync').create();
 
 // sass > css do tipo não minificado
 var sassBuild = {
@@ -67,4 +67,13 @@ gulp.task('watch', ['copy'], function() {
   gulp.watch('src/**/*', ['default']);
 });
 
-gulp.task('default', ['copy', 'styles-build', 'scripts-build', 'build-html', 'watch'])
+gulp.task('server', ['copy'], function() {
+  browserSync.init({
+    server: {
+      baseDir: 'dist'
+    }
+  });
+  gulp.watch('dist/**/*').on('change', browserSync.reload);
+});
+
+gulp.task('default', ['copy', 'styles-build', 'scripts-build', 'build-html', 'server', 'watch'])

@@ -1,10 +1,9 @@
-$main-color: #ff;
+$main-color: red;
 
 .botao {
-   background: $main-color;
-}
+  background: $main-color;
 
-
-img  {
-  width: 100px;
+  p {
+    color: black;
+  }
 }
