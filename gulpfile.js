@@ -64,9 +64,7 @@ gulp.task('build-html', ['copy'], function() {
 });
 
 gulp.task('watch', ['copy'], function() {
-  gulp.watch(paths.styles, ['default']);
-  gulp.watch(paths.scripts, ['default']);
-  gulp.watch(paths.html, ['default']);
+  gulp.watch('src/**/*', ['default']);
 });
 
 gulp.task('default', ['copy', 'styles-build', 'scripts-build', 'build-html', 'watch'])
