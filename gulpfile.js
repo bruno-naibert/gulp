@@ -43,14 +43,14 @@ gulp.task('styles-build', ['copy'], function() {
   gulp.src(paths.styles)
     .pipe(sass(sassBuild)).on('error', sass.logError)
     .pipe(concat('style.min.css'))
-    //.pipe(cssmin())
+    .pipe(cssmin())
     .pipe(gulp.dest('dist/css'));
 });
 
 gulp.task('scripts-build', ['copy'], function() {
   gulp.src(paths.scripts)
     .pipe(concat('scripts.min.js'))
-    //.pipe(uglify())
+    .pipe(uglify())
     .pipe(gulp.dest('dist/js'));
 });
 
