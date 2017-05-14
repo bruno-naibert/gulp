@@ -7,7 +7,7 @@ var gulp = require('gulp'),
   clean = require('gulp-clean'),
   usemin = require('gulp-usemin'),
   htmlReplace = require('gulp-html-replace'),
-  browserSync = require('browser-sync').create();
+  browserSync = require('browser-sync');
 
 // sass > css do tipo não minificado
 var sassBuild = {
@@ -43,14 +43,14 @@ gulp.task('styles-build', ['copy'], function() {
   gulp.src(paths.styles)
     .pipe(sass(sassBuild)).on('error', sass.logError)
     .pipe(concat('style.min.css'))
-    .pipe(cssmin())
+    //.pipe(cssmin())
     .pipe(gulp.dest('dist/css'));
 });
 
 gulp.task('scripts-build', ['copy'], function() {
   gulp.src(paths.scripts)
     .pipe(concat('scripts.min.js'))
-    .pipe(uglify())
+    //.pipe(uglify())
     .pipe(gulp.dest('dist/js'));
 });
 
@@ -67,13 +67,4 @@ gulp.task('watch', ['copy'], function() {
   gulp.watch('src/**/*', ['default']);
 });
 
-gulp.task('server', ['copy'], function() {
-  browserSync.init({
-    server: {
-      baseDir: 'dist'
-    }
-  });
-  gulp.watch('dist/**/*').on('change', browserSync.reload);
-});
-
-gulp.task('default', ['copy', 'styles-build', 'scripts-build', 'build-html', 'server', 'watch'])
+gulp.task('default', ['copy', 'styles-build', 'scripts-build', 'build-html', 'watch'])
