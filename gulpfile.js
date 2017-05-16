@@ -67,13 +67,4 @@ gulp.task('watch', ['copy'], function() {
   gulp.watch('src/**/*', ['default']);
 });
 
-gulp.task('server', ['copy'], function() {
-  browserSync.init({
-    server: {
-      baseDir: 'dist'
-    }
-  });
-  gulp.watch('dist/**/*').on('change', browserSync.reload);
-});
-
-gulp.task('default', ['copy', 'styles-build', 'scripts-build', 'build-html', 'server', 'watch'])
+gulp.task('default', ['copy', 'styles-build', 'scripts-build', 'build-html', 'watch'])
