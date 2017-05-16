@@ -1,4 +1,4 @@
-$main-color: red;
+$main-color: black;
 
 .botao {
   background: $main-color;
@@ -6,4 +6,10 @@ $main-color: red;
   p {
     color: black;
   }
+}
+
+
+body, html {
+  margin: 0;
+  padding: 0;
 }
