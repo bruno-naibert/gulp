@@ -7,7 +7,7 @@ var gulp = require('gulp'),
   clean = require('gulp-clean'),
   usemin = require('gulp-usemin'),
   htmlReplace = require('gulp-html-replace'),
-  browserSync = require('browser-sync').create();
+  browserSync = require('browser-sync').create;
 
 // sass > css do tipo não minificado
 var sassBuild = {
