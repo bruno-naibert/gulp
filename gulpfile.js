@@ -7,7 +7,9 @@ var gulp = require('gulp'),
   clean = require('gulp-clean'),
   usemin = require('gulp-usemin'),
   htmlReplace = require('gulp-html-replace'),
-  browserSync = require('browser-sync');
+  runSequence = require('run-sequence'),
+  browserSync = require('browser-sync'),
+  reload = browserSync.reload;
 
 // sass > css do tipo não minificado
 var sassBuild = {
@@ -32,49 +34,61 @@ gulp.task('clean', function() {
     .pipe(clean());
 });
 
-gulp.task('copy', ['clean'], function() {
+gulp.task('copy', function() {
 
   return gulp.src('src/img/**/*')
     .pipe(gulp.dest('dist/img'));
 });
 
-gulp.task('styles-build', ['copy'], function() {
+gulp.task('styles', function() {
 
   gulp.src(paths.styles)
     .pipe(sass(sassBuild)).on('error', sass.logError)
     .pipe(concat('style.min.css'))
-    //.pipe(cssmin())
-    .pipe(gulp.dest('dist/css'));
+    .pipe(gulp.dest('dist/css'))
+    .pipe(browserSync.stream({match: "**/*.css"}));
 });
 
-gulp.task('scripts-build', ['copy'], function() {
+gulp.task('scripts', function() {
+
   gulp.src(paths.scripts)
     .pipe(concat('scripts.min.js'))
-    //.pipe(uglify())
     .pipe(gulp.dest('dist/js'));
 });
 
-gulp.task('build-html', ['copy'], function() {
+gulp.task('build-html', function() {
   gulp.src('src/**/*.html')
     .pipe(htmlReplace({
-      //js: 'js/js.min.js',
+      js: 'js/scripts.min.js',
       css: 'css/style.min.css'
     }))
     .pipe(gulp.dest('dist'))
 });
 
-gulp.task('watch', ['copy'], function() {
-  gulp.watch('src/**/*', ['default']);
-});
+gulp.task('server', function() {
 
-
-gulp.task('server', ['copy'], function() {
   browserSync.init({
     server: {
       baseDir: 'dist'
     }
   });
-  gulp.watch('dist/**/*').on('change', browserSync.reload);
+
+  gulp.watch('src/styles/sass/**/*.scss', function(){
+		runSequence(['styles']);
+	});
 });
 
-gulp.task('default', ['copy', 'styles-build', 'scripts-build', 'build-html', 'server', 'watch'])
+gulp.task('default', ['clean'], function () {
+
+	var tasks = [
+    'copy',
+		'scripts',
+		'styles',
+    'build-html',
+	];
+
+	runSequence(tasks, function () {
+		gulp.start('server');
+	});
+
+});
