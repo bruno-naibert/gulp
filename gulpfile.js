@@ -35,7 +35,7 @@ gulp.task('clean', function() {
     .pipe(clean());
 });
 
-gulp.task('copy', function() {
+gulp.task('image', function() {
 
   return gulp.src('src/img/**/*')
     .pipe(gulp.dest('dist/img'));
@@ -97,12 +97,17 @@ gulp.task('server', function() {
       reload();
     });
   });
+  gulp.watch('src/img/**/*', function(){
+    runSequence(['image'], function () {
+      reload();
+    });
+  });
 });
 
 gulp.task('default', ['clean'], function () {
 
 	var tasks = [
-    'copy',
+    'image',
 		'scripts',
 		'styles',
 		'styles-lib',
