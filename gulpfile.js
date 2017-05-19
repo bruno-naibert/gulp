@@ -91,6 +91,12 @@ gulp.task('server', function() {
 			reload();
     });
   });
+
+  gulp.watch('src/**/*.html', function(){
+    runSequence(['html'], function () {
+      reload();
+    });
+  });
 });
 
 gulp.task('default', ['clean'], function () {
