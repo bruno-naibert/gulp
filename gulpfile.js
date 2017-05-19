@@ -11,11 +11,6 @@ var gulp = require('gulp'),
   browserSync = require('browser-sync'),
   reload = browserSync.reload;
 
-// sass > css do tipo não minificado
-var sassBuild = {
-  outputStyle: 'expanded'
-}
-
 var bases = {
   src: 'src',
   dist: 'dist',
@@ -31,7 +26,7 @@ var paths = {
 
 gulp.task('clean', function() {
 
-  return gulp.src([bases.dist])
+  return gulp.src(bases.dist)
     .pipe(clean());
 });
 
@@ -44,7 +39,7 @@ gulp.task('image', function() {
 gulp.task('styles', function() {
 
   gulp.src(paths.styles)
-    .pipe(sass(sassBuild)).on('error', sass.logError)
+    .pipe(sass()).on('error', sass.logError)
     .pipe(concat('style.min.css'))
     .pipe(gulp.dest('dist/css'))
     .pipe(browserSync.stream({match: "**/*.css"}));
