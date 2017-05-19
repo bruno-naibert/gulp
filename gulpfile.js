@@ -85,6 +85,10 @@ gulp.task('server', function() {
   gulp.watch('src/styles/**/*.css', function(){
 		runSequence(['styles-lib']);
 	});
+
+  gulp.watch('src/scripts/**/*.js', function(){
+		runSequence(['scripts']);
+	});
 });
 
 gulp.task('default', ['clean'], function () {
