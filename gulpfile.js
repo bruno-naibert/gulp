@@ -22,7 +22,7 @@ var bases = {
 }
 
 var paths = {
-  scripts: ['src/scripts/**/*.js'],
+  scripts: ['src/scripts/libs/**/*.js', 'src/scripts/**/*.js'],
   styles: ['src/styles/**/*.scss'],
   css: ['src/styles/**/*.css'],
   html: ['src/**/*.html'],
