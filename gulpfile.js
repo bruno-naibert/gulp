@@ -24,6 +24,7 @@ var bases = {
 var paths = {
   scripts: ['src/scripts/**/*.js'],
   styles: ['src/styles/**/*.scss'],
+  css: ['src/styles/**/*.css'],
   html: ['src/**/*.html'],
   images: ['dist/image/**/*'],
 }
@@ -45,6 +46,14 @@ gulp.task('styles', function() {
   gulp.src(paths.styles)
     .pipe(sass(sassBuild)).on('error', sass.logError)
     .pipe(concat('style.min.css'))
+    .pipe(gulp.dest('dist/css'))
+    .pipe(browserSync.stream({match: "**/*.css"}));
+});
+
+gulp.task('styles-lib', function() {
+
+  gulp.src(paths.css)
+    .pipe(concat('vendors.min.css'))
     .pipe(gulp.dest('dist/css'))
     .pipe(browserSync.stream({match: "**/*.css"}));
 });
@@ -84,6 +93,7 @@ gulp.task('default', ['clean'], function () {
     'copy',
 		'scripts',
 		'styles',
+		'styles-lib',
     'build-html',
 	];
 
