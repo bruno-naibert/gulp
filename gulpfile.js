@@ -87,8 +87,10 @@ gulp.task('server', function() {
 	});
 
   gulp.watch('src/scripts/**/*.js', function(){
-		runSequence(['scripts']);
-	});
+		runSequence(['scripts'], function () {
+			reload();
+    });
+  });
 });
 
 gulp.task('default', ['clean'], function () {
