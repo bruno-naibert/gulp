@@ -6,10 +6,12 @@ var gulp = require('gulp'),
   uglify = require('gulp-uglify'),
   clean = require('gulp-clean'),
   usemin = require('gulp-usemin'),
+  path = require('path'),
   htmlReplace = require('gulp-html-replace'),
   runSequence = require('run-sequence'),
   browserSync = require('browser-sync'),
-  reload = browserSync.reload;
+  reload = browserSync.reload,
+  del = require('del');
 
 var bases = {
   src: 'src',
@@ -21,7 +23,7 @@ var paths = {
   styles: ['src/styles/**/*.scss'],
   css: ['src/styles/**/*.css'],
   html: ['src/**/*.html'],
-  images: ['dist/image/**/*'],
+  images: ['src/img/**/*'],
 }
 
 gulp.task('clean', function() {
@@ -65,6 +67,19 @@ gulp.task('html', function() {
     .pipe(gulp.dest('dist'))
 });
 
+gulp.task('watch', function () {
+  var watcher = gulp.watch(['src/img/**/*', 'src/**/*.html']);
+
+  watcher.on('change', function (event) {
+    if (event.type === 'deleted') {
+      var filePathFromSrc = path.relative(path.resolve('src'), event.path);
+
+      var destFilePath = path.resolve('dist', filePathFromSrc);
+
+      del.sync(destFilePath);
+    }
+  });
+});
 gulp.task('server', function() {
 
   browserSync.init({
@@ -107,6 +122,7 @@ gulp.task('default', ['clean'], function () {
 		'styles',
 		'styles-lib',
     'html',
+    'watch',
 	];
 
 	runSequence(tasks, function () {

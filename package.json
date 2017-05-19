@@ -24,11 +24,15 @@
     "gulp-concat": "^2.6.1",
     "gulp-cssmin": "^0.1.7",
     "gulp-html-replace": "^1.6.2",
+    "gulp-path": "^3.0.3",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^3.1.0",
     "gulp-strip-css-comments": "^1.2.0",
     "gulp-uglify": "^2.1.2",
     "gulp-usemin": "^0.3.28",
     "run-sequence": "^1.2.2"
+  },
+  "dependencies": {
+    "del": "^2.2.2"
   }
 }
