@@ -65,12 +65,8 @@ gulp.task('scripts', function() {
     .pipe(gulp.dest('dist/js'));
 });
 
-gulp.task('build-html', function() {
+gulp.task('html', function() {
   gulp.src('src/**/*.html')
-    .pipe(htmlReplace({
-      js: 'js/scripts.min.js',
-      css: 'css/style.min.css'
-    }))
     .pipe(gulp.dest('dist'))
 });
 
@@ -94,7 +90,7 @@ gulp.task('default', ['clean'], function () {
 		'scripts',
 		'styles',
 		'styles-lib',
-    'build-html',
+    'html',
 	];
 
 	runSequence(tasks, function () {
