@@ -20,8 +20,8 @@ var bases = {
 
 var paths = {
   scripts: ['src/scripts/libs/**/*.js', 'src/scripts/**/*.js'],
-  styles: ['src/styles/sass/**/*.scss'],
-  css: ['src/styles/libs/**/*.css', 'src/styles/css/**/*.css'],
+  styles: ['src/styles/**/*.scss'],
+  css: ['src/styles/**/*.css'],
   html: ['src/**/*.html'],
   images: ['src/img/**/*'],
 }
@@ -38,17 +38,19 @@ gulp.task('image', function() {
     .pipe(gulp.dest('dist/img'));
 });
 
-gulp.task('sass', function() {
+gulp.task('styles', function() {
 
   gulp.src(paths.styles)
     .pipe(sass()).on('error', sass.logError)
-    .pipe(gulp.dest('src/styles/css'))
+    .pipe(concat('style.min.css'))
+    .pipe(gulp.dest('dist/css'))
+    .pipe(browserSync.stream({match: "**/*.css"}));
 });
 
-gulp.task('styles', function() {
+gulp.task('styles-lib', function() {
 
   gulp.src(paths.css)
-    .pipe(concat('styles.min.css'))
+    .pipe(concat('vendors.min.css'))
     .pipe(gulp.dest('dist/css'))
     .pipe(browserSync.stream({match: "**/*.css"}));
 });
@@ -87,11 +89,11 @@ gulp.task('server', function() {
   });
 
   gulp.watch('src/styles/sass/**/*.scss', function(){
-		runSequence(['sass']);
+		runSequence(['styles']);
 	});
 
   gulp.watch('src/styles/**/*.css', function(){
-		runSequence(['styles']);
+		runSequence(['styles-lib']);
 	});
 
   gulp.watch('src/scripts/**/*.js', function(){
@@ -117,14 +119,11 @@ gulp.task('default', ['clean'], function () {
 	var tasks = [
     'image',
 		'scripts',
-		'sass',
+		'styles',
+		'styles-lib',
     'html',
     'watch',
 	];
-
-	runSequence(tasks, function () {
-		gulp.start('styles');
-	});
 
 	runSequence(tasks, function () {
 		gulp.start('server');
